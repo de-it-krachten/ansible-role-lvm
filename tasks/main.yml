@@ -23,14 +23,14 @@
 - name: Create filesystems
   filesystem:
     fstype: "{{ item['fstype'] }}"
-    dev:    "/dev/mapper/{{ item['vg'] }}-{{ item['name'] }}"
+    dev:    "/dev/{{ item['vg'] }}/{{ item['name'] }}"
   loop: "{{ lvm['lv'] }}"
 
 - name: Mount mountpoint
   mount:
     path:   "{{ item['mp']  }}"
     fstype: "{{ item['fstype'] }}"
-    src:    "/dev/mapper/{{ item['vg'] }}-{{ item['name'] }}"
+    src:    "/dev/{{ item['vg'] }}/{{ item['name'] }}"
     state:   mounted
   loop: "{{ lvm['lv'] }}"
 
