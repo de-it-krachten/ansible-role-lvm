@@ -1,0 +1,12 @@
+---
+
+- name: Converge
+  hosts: all
+  vars:
+    lvm:
+      vg: []
+      lv: []
+  tasks:
+    - name: Include role 'ansible-role-lvm'
+      include_role:
+        name: ansible-role-lvm
