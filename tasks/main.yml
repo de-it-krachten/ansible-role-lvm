@@ -1,11 +1,17 @@
 ---
 
+#- name: Install all required package
+#  package:
+#    name: "{{ lvm_packages }}"
+#    state: present
+
 #- name: Import volumegroups
 #  vg_export_import:
-#    vg: "{{ ['vg'] }}"
+#    vg: "{{ [item['name'] }}"
 #    state: imported
-#  ignore_errors: true
-#  loop: "{{ lvm['vgs'] }}"
+#  failed_when: false
+#  loop: "{{ lvm['vg'] }}"
+#  when: item['import'] is defined and item['import']|bool
 
 - name: Create volumegroups
   lvg:
