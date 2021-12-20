@@ -70,15 +70,18 @@ molecule:
     playbooks: []
     vars:
       lvm:
-        vg:
-          - name: vg01
-            pv: /dev/loop99
-        lv:
-          - name: lv01
-            vg: vg01
-            size: 20M
-            fstype: ext4
-            mp: /tmp/test1
+        vg: []
+        lv: []
+#      lvm:
+#        vg:
+#          - name: vg01
+#            pv: /dev/loop99
+#        lv:
+#          - name: lv01
+#            vg: vg01
+#            size: 20M
+#            fstype: ext4
+#            mp: /tmp/test1
 
 # templates
 ci_templates:
