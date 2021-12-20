@@ -69,14 +69,3 @@
             update_cache: yes
 
       when: ansible_os_family == 'RedHat' and (ansible_distribution_major_version|int) >= 8
-
-    - name: Set-up a temporary device  # noqa no-changed-when
-      shell: |
-        set -e
-        set -o pipefail
-        loopback=/dev/loop99
-        diskfile=/tmp/disk1
-        losetup=$(losetup | awk '/\/dev\/loop99/ {print $1}')
-        [[ -n $losetup ]] && losetup -d $loopback
-        dd if=/dev/zero of=$diskfile bs=1M count=100
-        losetup $loopback $diskfile
