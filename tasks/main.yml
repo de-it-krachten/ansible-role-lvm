@@ -15,36 +15,36 @@
 
 - name: Create volumegroups
   lvg:
-    vg:  "{{ item['name'] }}"
+    vg: "{{ item['name'] }}"
     pvs: "{{ item['pv'] }}"
   loop: "{{ lvm['vg'] }}"
 
 - name: Create logical volumes
   lvol:
-    vg:   "{{ item['vg']   }}"
-    lv:   "{{ item['name']   }}"
+    vg: "{{ item['vg'] }}"
+    lv: "{{ item['name'] }}"
     size: "{{ item['size'] }}"
   loop: "{{ lvm['lv'] }}"
 
 - name: Create filesystems
   filesystem:
     fstype: "{{ item['fstype'] }}"
-    dev:    "/dev/{{ item['vg'] }}/{{ item['name'] }}"
+    dev: "/dev/{{ item['vg'] }}/{{ item['name'] }}"
   loop: "{{ lvm['lv'] }}"
 
 - name: Mount mountpoint
   mount:
-    path:   "{{ item['mp']  }}"
+    path: "{{ item['mp']  }}"
     fstype: "{{ item['fstype'] }}"
-    src:    "/dev/{{ item['vg'] }}/{{ item['name'] }}"
-    state:   mounted
+    src: "/dev/{{ item['vg'] }}/{{ item['name'] }}"
+    state: mounted
   loop: "{{ lvm['lv'] }}"
 
 - name: Set permissions & ownership
   file:
-    path:   "{{ item['mp']  }}"
-    owner:  "{{ item['owner']|default('root') }}"
-    group:  "{{ item['group']|default('root') }}"
-    mode:   "{{ item['mode']|default('0755') }}"
+    path: "{{ item['mp'] }}"
+    owner: "{{ item['owner']|default('root') }}"
+    group: "{{ item['group']|default('root') }}"
+    mode: "{{ item['mode']|default('0755') }}"
     state:  directory
   loop: "{{ lvm['lv'] }}"
