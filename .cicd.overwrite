@@ -1,0 +1,5 @@
+generic:
+  role_description: |
+    Sets up LVM (Logical volume managment)<br>
+    Create volume groups, logical volume & file systems
+    
