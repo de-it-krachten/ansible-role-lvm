@@ -24,12 +24,15 @@
     vg: "{{ item['vg'] }}"
     lv: "{{ item['name'] }}"
     size: "{{ item['size'] }}"
+    resizefs: "{{ lvm_resizefs | default(True) }}"
+    shrink: "{{ lvm_shrink | default(False) }}"
   loop: "{{ lvm['lv'] }}"
 
 - name: Create filesystems
   filesystem:
     fstype: "{{ item['fstype'] }}"
     dev: "/dev/{{ item['vg'] }}/{{ item['name'] }}"
+    resizefs: "{{ lvm_resizefs | default(True) }}"
   loop: "{{ lvm['lv'] }}"
 
 - name: Mount mountpoint

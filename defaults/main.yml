@@ -1,9 +1,17 @@
 ---
 
+# List of required packages
 lvm_packages:
   - lvm2
 
+# Defaults lists of volumegroups, logical volumes and file systems
 lvm:
   vg: []
   lv: []
   fs: []
+
+# Shrink logical volumes
+lvm_shrink: false
+
+# Resize file system after logical volume changes
+lvm_resizefs: true
