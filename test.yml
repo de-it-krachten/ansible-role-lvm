@@ -3,7 +3,7 @@
 - hosts: localhost
   tasks:
 
-    - name: xxx
+    - name: Xxx
       set_fact:
         docker_daemon: "{{ lookup('file', '/etc/docker/daemon.json') | from_json }}"
 
@@ -11,7 +11,7 @@
       debug:
         var: vars
 
-    - name: xxx
+    - name: Xxx
       debug:
         var: docker_daemon
- 
+
