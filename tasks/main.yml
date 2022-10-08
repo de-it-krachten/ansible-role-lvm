@@ -1,17 +1,17 @@
 ---
 
-#- name: Install all required package
-#  package:
-#    name: "{{ lvm_packages }}"
-#    state: present
+# - name: Install all required package
+#   package:
+#     name: "{{ lvm_packages }}"
+#     state: present
 
-#- name: Import volumegroups
-#  vg_export_import:
-#    vg: "{{ [item['name'] }}"
-#    state: imported
-#  failed_when: false
-#  loop: "{{ lvm['vg'] }}"
-#  when: item['import'] is defined and item['import'] | bool
+# - name: Import volumegroups
+#   vg_export_import:
+#     vg: "{{ [item['name'] }}"
+#     state: imported
+#   failed_when: false
+#   loop: "{{ lvm['vg'] }}"
+#   when: item['import'] is defined and item['import'] | bool
 
 - name: Create volumegroups
   community.general.lvg:
@@ -49,5 +49,5 @@
     owner: "{{ item['owner'] | default('root') }}"
     group: "{{ item['group'] | default('root') }}"
     mode: "{{ item['mode'] | default('0755') }}"
-    state:  directory
+    state: directory
   loop: "{{ lvm['lv'] }}"
