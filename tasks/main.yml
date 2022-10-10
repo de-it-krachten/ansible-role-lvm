@@ -1,26 +1,26 @@
 ---
 
-#- name: Install all required package
-#  package:
-#    name: "{{ lvm_packages }}"
-#    state: present
+# - name: Install all required package
+#   package:
+#     name: "{{ lvm_packages }}"
+#     state: present
 
-#- name: Import volumegroups
-#  vg_export_import:
-#    vg: "{{ [item['name'] }}"
-#    state: imported
-#  failed_when: false
-#  loop: "{{ lvm['vg'] }}"
-#  when: item['import'] is defined and item['import']|bool
+# - name: Import volumegroups
+#   vg_export_import:
+#     vg: "{{ [item['name'] }}"
+#     state: imported
+#   failed_when: false
+#   loop: "{{ lvm['vg'] }}"
+#   when: item['import'] is defined and item['import'] | bool
 
 - name: Create volumegroups
-  lvg:
+  community.general.lvg:
     vg: "{{ item['name'] }}"
     pvs: "{{ item['pv'] }}"
   loop: "{{ lvm['vg'] }}"
 
 - name: Create logical volumes
-  lvol:
+  community.general.lvol:
     vg: "{{ item['vg'] }}"
     lv: "{{ item['name'] }}"
     size: "{{ item['size'] }}"
@@ -29,25 +29,25 @@
   loop: "{{ lvm['lv'] }}"
 
 - name: Create filesystems
-  filesystem:
+  community.general.filesystem:
     fstype: "{{ item['fstype'] }}"
     dev: "/dev/{{ item['vg'] }}/{{ item['name'] }}"
     resizefs: "{{ lvm_resizefs | default(True) }}"
   loop: "{{ lvm['lv'] }}"
 
 - name: Mount mountpoint
-  mount:
-    path: "{{ item['mp']  }}"
+  ansible.posix.mount:
+    path: "{{ item['mp'] }}"
     fstype: "{{ item['fstype'] }}"
     src: "/dev/{{ item['vg'] }}/{{ item['name'] }}"
     state: mounted
   loop: "{{ lvm['lv'] }}"
 
 - name: Set permissions & ownership
-  file:
+  ansible.builtin.file:
     path: "{{ item['mp'] }}"
-    owner: "{{ item['owner']|default('root') }}"
-    group: "{{ item['group']|default('root') }}"
-    mode: "{{ item['mode']|default('0755') }}"
-    state:  directory
+    owner: "{{ item['owner'] | default('root') }}"
+    group: "{{ item['group'] | default('root') }}"
+    mode: "{{ item['mode'] | default('0755') }}"
+    state: directory
   loop: "{{ lvm['lv'] }}"

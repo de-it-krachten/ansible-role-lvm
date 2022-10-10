@@ -6,6 +6,17 @@
 Sets up LVM (Logical volume managment)<br>
 Create volume groups, logical volume & file systems
 
+
+## Dependencies
+
+#### Roles
+None
+
+#### Collections
+- community.general
+- ansible.posix
+- community.general
+
 ## Platforms
 
 Supported platforms
@@ -52,6 +63,7 @@ lvm_resizefs: true
 
 
 
+
 ## Example Playbook
 ### molecule/default/converge.yml
 <pre><code>
@@ -60,6 +72,6 @@ lvm_resizefs: true
   become: "{{ molecule['converge']['become'] | default('yes') }}"
   tasks:
     - name: Include role 'lvm'
-      include_role:
+      ansible.builtin.include_role:
         name: lvm
 </pre></code>
