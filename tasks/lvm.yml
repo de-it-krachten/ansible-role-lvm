@@ -1,0 +1,66 @@
+---
+
+# - name: Install all required package
+#   package:
+#     name: "{{ lvm_packages }}"
+#     state: present
+
+# - name: Import volumegroups
+#   vg_export_import:
+#     vg: "{{ [item['name'] }}"
+#     state: imported
+#   failed_when: false
+#   loop: "{{ lvm['vg'] }}"
+#   when: item['import'] is defined and item['import'] | bool
+
+- name: Create volumegroups
+  community.general.lvg:
+    vg: "{{ item['name'] }}"
+    pvs: >-
+      [
+        {% for disk in item['pv'] %}
+        {% if disk is search('/dev/') %}
+        "{{ disk }}"{% if not loop.last %},{% endif %}
+        {% else %}
+        "{{ '/dev/' + scsi_mapping[disk] }}"{% if not loop.last %},{% endif %}
+        {% endif %}
+        {% endfor %}
+      ]
+    pvresize: "{{ item['pvresize'] | default(false) }}"
+  loop: "{{ lvm['vg'] }}"
+
+- name: Create logical volumes
+  community.general.lvol:
+    vg: "{{ item['vg'] }}"
+    lv: "{{ item['name'] }}"
+    size: "{{ item['size'] }}"
+    resizefs: "{{ lvm_resizefs | default(True) }}"
+    shrink: "{{ lvm_shrink | default(False) }}"
+  loop: "{{ lvm['lv'] }}"
+
+- name: Create filesystems
+  community.general.filesystem:
+    fstype: "{{ item['fstype'] }}"
+    dev: "/dev/mapper/{{ item['vg'] + '-' + item['name'] }}"
+    resizefs: "{{ lvm_resizefs | default(True) }}"
+  loop: "{{ lvm['lv'] }}"
+  when: item.fstype is defined and item.fstype is not search('^(raw|swap)$')
+
+- name: Mount mountpoint
+  ansible.posix.mount:
+    path: "{{ item['mp'] }}"
+    fstype: "{{ item['fstype'] }}"
+    src: "/dev/mapper/{{ item['vg'] + '-' + item['name'] }}"
+    state: mounted
+  loop: "{{ lvm['lv'] }}"
+  when: item['fstype'] is defined and item['fstype'] is not search('^(raw|swap)$')
+
+- name: Set permissions & ownership
+  ansible.builtin.file:
+    path: "{{ item['mp'] }}"
+    owner: "{{ item['owner'] | default('root') }}"
+    group: "{{ item['group'] | default('root') }}"
+    mode: "{{ item['mode'] | default('0755') }}"
+    state: directory
+  when: item['mp'] is defined
+  loop: "{{ lvm['lv'] }}"
