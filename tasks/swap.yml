@@ -4,34 +4,45 @@
   ansible.builtin.set_fact:
     lvm_swap_devices: "{{ lvm['lv'] | json_query('[?fstype==`swap`]') }}"
 
-- name: List all swap devices
-  ansible.builtin.command: swapon --show
-  changed_when: false
-  check_mode: false
-  register: __lvm_swap
+- name: Process all swap devices on LVM
+  when: lvm_swap_devices | length > 0
+  block:
 
-- debug: var=ansible_local['mapper']
+    - name: Update all facts
+      ansible.builtin.setup:
 
-- name: Format swap devices
-  ansible.builtin.command:
-    cmd: mkswap /dev/mapper/{{ item['vg'] + '-' + item['name'] }}
-  loop: "{{ lvm_swap_devices }}"
-  when:
-    - __lvm_swap.stdout is not search(ansible_local['mapper']['/dev/mapper/'+item.vg+'-'+item.name])
+    - name: List all swap devices
+      ansible.builtin.command: swapon --show
+      changed_when: false
+      check_mode: false
+      register: __lvm_swap
 
-- name: Setup automount of swap spaces
-  ansible.posix.mount:
-    path: none
-    fstype: "{{ item['fstype'] }}"
-    src: "/dev/mapper/{{ item['vg'] + '-' + item['name'] }}"
-    #state: mounted
-    state: present
-    opts: defaults,x-systemd.device-timeout=0
-  loop: "{{ lvm_swap_devices }}"
+    - name: Show mapper links
+      ansible.builtin.debug:
+        var: ansible_local['mapper']
+        verbosity: 1
 
-- name: Activate swap
-  ansible.builtin.command:
-    cmd: swapon /dev/mapper/{{ item['vg'] + '-' + item['name'] }}
-  loop: "{{ lvm_swap_devices }}"
-  when:
-    - __lvm_swap.stdout is not search(ansible_local['mapper']['/dev/mapper/'+item.vg+'-'+item.name])
+    - name: Format swap devices
+      ansible.builtin.command:
+        cmd: mkswap /dev/mapper/{{ item['vg'] + '-' + item['name'] }}
+      changed_when: true
+      loop: "{{ lvm_swap_devices }}"
+      when:
+        - __lvm_swap.stdout is not search(ansible_local['mapper']['/dev/mapper/'+item.vg+'-'+item.name])
+
+    - name: Setup automount of swap spaces
+      ansible.posix.mount:
+        path: none
+        fstype: "{{ item['fstype'] }}"
+        src: "/dev/mapper/{{ item['vg'] + '-' + item['name'] }}"
+        state: present
+        opts: defaults,x-systemd.device-timeout=0
+      loop: "{{ lvm_swap_devices }}"
+
+    - name: Activate swap
+      ansible.builtin.command:
+        cmd: swapon /dev/mapper/{{ item['vg'] + '-' + item['name'] }}
+      changed_when: true
+      loop: "{{ lvm_swap_devices }}"
+      when:
+        - __lvm_swap.stdout is not search(ansible_local['mapper']['/dev/mapper/'+item.vg+'-'+item.name])
