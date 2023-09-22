@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.4.0...v1.5.0) (2023-09-22)
+
+
+### Features
+
+* Add support for SCSI id -> device translation ([b02872a](https://github.com/de-it-krachten/ansible-role-lvm/commit/b02872ac5731846ee3157c7fdc35f1d717200d7f))
+* Add support for swap devices ([7534f49](https://github.com/de-it-krachten/ansible-role-lvm/commit/7534f49c95cd7d2439c489a25954eaf43af267d5))
+
 # [1.4.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.3.0...v1.4.0) (2023-08-14)
 
 
