@@ -28,7 +28,8 @@
       ]
     pvresize: "{{ item['pvresize'] | default(false) }}"
   loop: "{{ lvm['vg'] }}"
-  when: item.when | default(True) | bool
+  when:
+    - item.when is undefined or vars[item.when] | bool
 
 - name: Create logical volumes
   community.general.lvol:
@@ -39,7 +40,8 @@
     shrink: "{{ lvm_shrink | default(False) }}"
     opts: "{{ item['opts'] | default(omit) }}"
   loop: "{{ lvm['lv'] }}"
-  when: item.when | default(True) | bool
+  when:
+    - item.when is undefined or vars[item.when] | bool
 
 - name: Create filesystems
   community.general.filesystem:
@@ -48,7 +50,7 @@
     resizefs: "{{ lvm_resizefs | default(True) }}"
   loop: "{{ lvm['lv'] }}"
   when:
-    - item.when | default(True) | bool
+    - item.when is undefined or vars[item.when] | bool
     - item.fstype is defined and item.fstype is not search('^(raw|swap)$')
 
 - name: Mount mountpoint
@@ -59,7 +61,7 @@
     state: mounted
   loop: "{{ lvm['lv'] }}"
   when:
-    - item.when | default(True) | bool
+    - item.when is undefined or vars[item.when] | bool
     - item['fstype'] is defined and item['fstype'] is not search('^(raw|swap)$')
 
 - name: Set permissions & ownership
@@ -70,7 +72,7 @@
     mode: "{{ item['mode'] | default('0755') }}"
     state: directory
   when:
-    - item.when | default(True) | bool
+    - item.when is undefined or vars[item.when] | bool
     - item['mp'] is defined
     - item['mp_change'] is undefined or item['mp_change'] | bool
   loop: "{{ lvm['lv'] }}"
