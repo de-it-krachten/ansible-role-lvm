@@ -1,3 +1,15 @@
+# [1.6.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.5.0...v1.6.0) (2024-04-12)
+
+
+### Bug Fixes
+
+* Simplify conditionals ([6fefc07](https://github.com/de-it-krachten/ansible-role-lvm/commit/6fefc0775bf8faadf8400bd66e58f77ffeee1b5b))
+
+
+### Features
+
+* Make vg/lv creation optionally conditional ([ed9242a](https://github.com/de-it-krachten/ansible-role-lvm/commit/ed9242aae39e58cdba3e53919908683c4cc433f5))
+
 # [1.5.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.4.0...v1.5.0) (2023-09-22)
 
 
