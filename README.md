@@ -13,8 +13,8 @@ Create volume groups, logical volume & file systems
 None
 
 #### Collections
-- community.general
 - ansible.posix
+- community.general
 
 ## Platforms
 
@@ -32,7 +32,6 @@ Supported platforms
 - AlmaLinux 9
 - SUSE Linux Enterprise 15<sup>1</sup>
 - openSUSE Leap 15
-- Debian 10 (Buster)<sup>1</sup>
 - Debian 11 (Bullseye)
 - Debian 12 (Bookworm)
 - Ubuntu 20.04 LTS
@@ -71,7 +70,7 @@ lvm_resizefs: true
 <pre><code>
 - name: sample playbook for role 'lvm'
   hosts: all
-  become: "yes"
+  become: 'yes'
   tasks:
     - name: Include role 'lvm'
       ansible.builtin.include_role:

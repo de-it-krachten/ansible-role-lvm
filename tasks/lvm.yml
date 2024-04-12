@@ -28,6 +28,8 @@
       ]
     pvresize: "{{ item['pvresize'] | default(false) }}"
   loop: "{{ lvm['vg'] }}"
+  when:
+    - item.when is undefined or vars[item.when] | bool
 
 - name: Create logical volumes
   community.general.lvol:
@@ -38,6 +40,8 @@
     shrink: "{{ lvm_shrink | default(False) }}"
     opts: "{{ item['opts'] | default(omit) }}"
   loop: "{{ lvm['lv'] }}"
+  when:
+    - item.when is undefined or vars[item.when] | bool
 
 - name: Create filesystems
   community.general.filesystem:
@@ -45,7 +49,9 @@
     dev: "/dev/mapper/{{ item['vg'] + '-' + item['name'] }}"
     resizefs: "{{ lvm_resizefs | default(True) }}"
   loop: "{{ lvm['lv'] }}"
-  when: item.fstype is defined and item.fstype is not search('^(raw|swap)$')
+  when:
+    - item.when is undefined or vars[item.when] | bool
+    - item.fstype is defined and item.fstype is not search('^(raw|swap)$')
 
 - name: Mount mountpoint
   ansible.posix.mount:
@@ -54,7 +60,9 @@
     src: "/dev/mapper/{{ item['vg'] + '-' + item['name'] }}"
     state: mounted
   loop: "{{ lvm['lv'] }}"
-  when: item['fstype'] is defined and item['fstype'] is not search('^(raw|swap)$')
+  when:
+    - item.when is undefined or vars[item.when] | bool
+    - item['fstype'] is defined and item['fstype'] is not search('^(raw|swap)$')
 
 - name: Set permissions & ownership
   ansible.builtin.file:
@@ -64,6 +72,7 @@
     mode: "{{ item['mode'] | default('0755') }}"
     state: directory
   when:
+    - item.when is undefined or vars[item.when] | bool
     - item['mp'] is defined
     - item['mp_change'] is undefined or item['mp_change'] | bool
   loop: "{{ lvm['lv'] }}"
