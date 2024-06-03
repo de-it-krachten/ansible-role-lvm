@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.6.0...v1.7.0) (2024-06-03)
+
+
+### Features
+
+* Add support for Ubuntu 24.04 LTS + Fedora 40 ([d4edeb6](https://github.com/de-it-krachten/ansible-role-lvm/commit/d4edeb6b06e9b36f822ab46e33b4f6be60f79790))
+
 # [1.6.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.5.0...v1.6.0) (2024-04-12)
 
 
