@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.7.0...v1.8.0) (2024-12-29)
+
+
+### Features
+
+* Update supported platforms & CI ([15fe1d2](https://github.com/de-it-krachten/ansible-role-lvm/commit/15fe1d239150b323e2fb0e388e2a4211805af599))
+
 # [1.7.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.6.0...v1.7.0) (2024-06-03)
 
 
