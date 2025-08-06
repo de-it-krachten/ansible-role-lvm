@@ -1,3 +1,14 @@
+# [1.9.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.8.0...v1.9.0) (2025-08-06)
+
+
+### Features
+
+* Add support for AlmaLinux 10 ([d520545](https://github.com/de-it-krachten/ansible-role-lvm/commit/d520545b2286fbe422170235061ea7f917fe0a31))
+* Add support for Debian 13 (Trixie) ([661d1b4](https://github.com/de-it-krachten/ansible-role-lvm/commit/661d1b42395e89cb9851103db9e4b6e9e11bb5e3))
+* Add support for OracleLinux 10 ([2615fea](https://github.com/de-it-krachten/ansible-role-lvm/commit/2615fea9604c876b5299825cab7fffb196403fc2))
+* Add support for Red Hat Enterprise Linux 10 ([2938620](https://github.com/de-it-krachten/ansible-role-lvm/commit/2938620cd8a7b62d639606519fb662f418703222))
+* Add support for RockyLinux 10 ([2acda32](https://github.com/de-it-krachten/ansible-role-lvm/commit/2acda3205c56886e72cc5698f2f64ac6b5feb263))
+
 # [1.8.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.7.0...v1.8.0) (2024-12-29)
 
 
