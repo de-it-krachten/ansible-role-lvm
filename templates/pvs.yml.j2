@@ -1,0 +1,5 @@
+---
+{% for disk in item['pv'] %}
+{% set disk = disk if disk is search('/dev/') else '/dev/' + scsi_mapping[disk] %}
+- {{ disk }}
+{% endfor %}

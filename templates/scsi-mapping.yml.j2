@@ -1,0 +1,4 @@
+---
+{% for item in ansible_local['scsi'] %}
+"{{ item.id }}": "{{ item.disk }}"
+{% endfor %}
