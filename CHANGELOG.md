@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.10.0...v1.10.1) (2026-04-08)
+
+
+### Bug Fixes
+
+* Add support for ansible-code 2.19+ ([31d8a3e](https://github.com/de-it-krachten/ansible-role-lvm/commit/31d8a3e193d0749935f1904d4a74610704c89d2f))
+
 # [1.10.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.9.0...v1.10.0) (2026-03-15)
 
 
