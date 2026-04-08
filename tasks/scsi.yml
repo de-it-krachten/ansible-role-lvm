@@ -2,12 +2,7 @@
 
 - name: Create lookup table for disks
   ansible.builtin.set_fact:
-    scsi_mapping: >
-      {
-      {% for item in ansible_local['scsi'] %}
-        "{{ item.id }}": "{{ item.disk }}"{% if not loop.last %},{% endif %}
-      {% endfor %}
-      }
+    scsi_mapping: "{{ lookup('template', 'scsi-mapping.yml.j2') | from_yaml }}"
 
 - name: Show lookup table
   ansible.builtin.debug:
