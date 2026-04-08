@@ -16,16 +16,7 @@
 - name: Create volumegroups
   community.general.lvg:
     vg: "{{ item['name'] }}"
-    pvs: >-
-      [
-        {% for disk in item['pv'] %}
-        {% if disk is search('/dev/') %}
-        "{{ disk }}"{% if not loop.last %},{% endif %}
-        {% else %}
-        "{{ '/dev/' + scsi_mapping[disk] }}"{% if not loop.last %},{% endif %}
-        {% endif %}
-        {% endfor %}
-      ]
+    pvs: "{{ lookup('template', 'pvs.yml.j2') | from_yaml }}"
     pvresize: "{{ item['pvresize'] | default(false) }}"
   loop: "{{ lvm['vg'] }}"
   when:
