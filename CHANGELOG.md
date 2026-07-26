@@ -1,3 +1,12 @@
+# [1.11.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.10.1...v1.11.0) (2026-07-26)
+
+
+### Features
+
+* Added support for Fedora 44 ([24cc3bd](https://github.com/de-it-krachten/ansible-role-lvm/commit/24cc3bdbaad96567cc45d33599d5e27102ec4889))
+* Added support for Ubuntu 26.04 LTS ([72703f3](https://github.com/de-it-krachten/ansible-role-lvm/commit/72703f3affd7e2cf892a63fc61e265c57bf03383))
+* Drop support for Fedora 42 ([a404c22](https://github.com/de-it-krachten/ansible-role-lvm/commit/a404c22850c81ba680e520404a006ffcfe0e6ccd))
+
 ## [1.10.1](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.10.0...v1.10.1) (2026-04-08)
 
 
