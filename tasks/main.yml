@@ -1,5 +1,8 @@
 ---
 
+- name: Execute setup
+  ansible.builtin.setup:
+
 - name: Incude tasks 'scsi.yml'
   ansible.builtin.include_tasks: scsi.yml
 
