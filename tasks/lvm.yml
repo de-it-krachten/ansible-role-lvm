@@ -48,7 +48,7 @@
       --compression {{ item['compression'] | default('y') }}
       {{ item['vg'] }}
   when:
-    - item.type == 'vdo'
+    - item.type is defined and item.type == 'vdo'
     - item.name not in (ansible_facts.lvm.lvs | default({}))
   loop: "{{ lvm['lv'] }}"
   loop_control:
@@ -59,7 +59,7 @@
     cmd: >-
       lvextend -L {{ item.virtualsize }} /dev/{{ item.vg }}/{{ item.name }}
   when:
-    - item.type == 'vdo'
+    - item.type is defined and item.type == 'vdo'
     - item.name in (ansible_facts.lvm.lvs | default({}))
     - item.virtualsize | regex_replace('G') | int > ansible_facts['lvm']['lvs'][item.name]['size_g'] | int
   loop: "{{ lvm['lv'] }}"
@@ -69,14 +69,14 @@
 - name: Extend VDO physical size
   ansible.builtin.command:
     cmd: >-
-      lvextend -L {{ item.size }} {{ item.vg }}/{{ item.pool_name }}
+      lvextend -L {{ item.size }} {{ item.vg }}/{{ item.pool_name | default('') }}
   when:
-    - item.type == 'vdo'
+    - item.type is defined and item.type == 'vdo'
     - item.pool_name in (ansible_facts.lvm.lvs | default({}))
     - item.size | regex_replace('G') | int > ansible_facts['lvm']['lvs'][item.pool_name]['size_g'] | int
   loop: "{{ lvm['lv'] }}"
   loop_control:
-    label: "{{ item.pool_name }}"
+    label: "{{ item.name }}"
 
 - name: Create filesystems
   community.general.filesystem:
