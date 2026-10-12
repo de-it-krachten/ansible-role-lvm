@@ -47,6 +47,7 @@
       --deduplication {{ item['deduplication'] | default('y') }}
       --compression {{ item['compression'] | default('y') }}
       {{ item['vg'] }}
+  changed_when: true
   when:
     - item.type is defined and item.type == 'vdo'
     - item.name not in (ansible_facts.lvm.lvs | default({}))
@@ -58,6 +59,7 @@
   ansible.builtin.command:
     cmd: >-
       lvextend -L {{ item.virtualsize }} /dev/{{ item.vg }}/{{ item.name }}
+  changed_when: true
   when:
     - item.type is defined and item.type == 'vdo'
     - item.name in (ansible_facts.lvm.lvs | default({}))
@@ -70,6 +72,7 @@
   ansible.builtin.command:
     cmd: >-
       lvextend -L {{ item.size }} {{ item.vg }}/{{ item.pool_name | default('') }}
+  changed_when: true
   when:
     - item.type is defined and item.type == 'vdo'
     - item.pool_name in (ansible_facts.lvm.lvs | default({}))
