@@ -1,3 +1,16 @@
+# [1.12.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.11.0...v1.12.0) (2026-10-30)
+
+
+### Bug Fixes
+
+* Fix for when to LVM type is defined ([4028cdb](https://github.com/de-it-krachten/ansible-role-lvm/commit/4028cdb26e62a471e392c3e9e8e918e2cb5b18c9))
+
+
+### Features
+
+* Add support for VDO ([dc05053](https://github.com/de-it-krachten/ansible-role-lvm/commit/dc05053ba6966cb708c1a8c0cd9e8a2106462cb7))
+* Drop support for Debian 11 (Bullseye) ([bc9038d](https://github.com/de-it-krachten/ansible-role-lvm/commit/bc9038dd011c6dc42626e4aa9ecd9a27e3211013))
+
 # [1.11.0](https://github.com/de-it-krachten/ansible-role-lvm/compare/v1.10.1...v1.11.0) (2026-07-26)
 
 
